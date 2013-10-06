@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements CharacterSource {
-    protected RandomCharacterGenerator mProducer;
-    private CharacterEventHandler mHandler;
+public class MainActivity extends Activity implements CharacterSource, CharacterListener {
+    protected RandomCharacterGenerator mProducer = new RandomCharacterGenerator();
+    private CharacterEventHandler mHandler = new CharacterEventHandler();
     
     /**
      * Called when the activity is first created.
@@ -26,9 +26,12 @@ public class MainActivity extends Activity implements CharacterSource {
             @Override
             public void onClick(View view) {
                 String inputString = ((EditText)findViewById(R.id.input)).toString();
-                newCharacter(inputString);
+                newCharacter(new CharacterEvent(MainActivity.this, inputString));
             }
         });
+
+        mProducer.addCharacterListener(this);
+        this.addCharacterListener(this);
     }
 
     public synchronized void processInput(CharacterEvent ce) {
@@ -45,11 +48,11 @@ public class MainActivity extends Activity implements CharacterSource {
         mHandler.removeCharacterListener(cl);
     }
 
-    public void newCharacter(String c) {
-        mHandler.newCharacter(this, c);
-    }
-
     public void nextCharacter() {
         throw new IllegalStateException("input is produced by user");
+    }
+
+    public void newCharacter(CharacterEvent ce) {
+        processInput(ce);
     }
 }

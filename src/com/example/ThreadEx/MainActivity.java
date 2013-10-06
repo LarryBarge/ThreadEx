@@ -18,6 +18,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        mProducer.start();
         layoutSetup();
     }
 
@@ -25,7 +26,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
         ((Button)findViewById(R.id.enter)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String inputString = ((EditText)findViewById(R.id.input)).toString();
+                String inputString = ((EditText)findViewById(R.id.input)).getText().toString();
                 newCharacter(new CharacterEvent(MainActivity.this, inputString));
             }
         });
@@ -34,10 +35,11 @@ public class MainActivity extends Activity implements CharacterSource, Character
         this.addCharacterListener(this);
     }
 
-    public synchronized void processInput(CharacterEvent ce) {
-        TextView textBox = (TextView)findViewById(R.id.output);
-        String originalText = textBox.toString();
+    public synchronized void processInput(final CharacterEvent ce) {
+        final TextView textBox = (TextView)findViewById(R.id.output);
+        final String originalText = textBox.getText().toString();
         textBox.setText(originalText + "\n" + ce.c);
+
     }
 
     public void addCharacterListener(CharacterListener cl) {

@@ -11,6 +11,7 @@
             />
     <Button
         android:id="@+id/enter"
+        android:text="Enter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     <TextView

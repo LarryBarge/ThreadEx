@@ -1,17 +1,25 @@
 package com.example.ThreadEx;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends Activity implements CharacterSource, CharacterListener {
     protected RandomCharacterGenerator mProducer = new RandomCharacterGenerator();
     private CharacterEventHandler mHandler = new CharacterEventHandler();
-    
+
     /**
      * Called when the activity is first created.
      */
@@ -21,8 +29,11 @@ public class MainActivity extends Activity implements CharacterSource, Character
         setContentView(R.layout.main);
         mProducer.start();
         layoutSetup();
+        launchScanner();
 
     }
+
+
 
     public void layoutSetup() {
         ((Button)findViewById(R.id.enter)).setOnClickListener(new View.OnClickListener() {
@@ -32,9 +43,39 @@ public class MainActivity extends Activity implements CharacterSource, Character
                 newCharacter(new CharacterEvent(MainActivity.this, inputString));
             }
         });
-
+        ((Button)findViewById(R.id.scan)).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                launchScanner();
+            }
+        });
         mProducer.addCharacterListener(this);
         this.addCharacterListener(this);
+    }
+
+    public boolean launchScanner() {
+        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+        List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.GET_INTENT_FILTERS);
+
+        if(list.size()>0) {
+            startActivityForResult(intent, 0);
+            return true;
+        } else {
+            //prompt to install zxing
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW);
+            goToMarket.setData(Uri.parse("market://details?id=com.google.zxing.client.android"));
+            startActivity(goToMarket);
+            return false;
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0) {
+            String tmp = intent.getStringExtra("SCAN_RESULT");
+            Log.e(this.getClass().getName(), "scan: " + tmp);
+            EditText codeEditText = (EditText)findViewById(R.id.edit_message);
+            codeEditText.setText(tmp);
+        }
     }
 
     public synchronized void processInput(final CharacterEvent ce) {

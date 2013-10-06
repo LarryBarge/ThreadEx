@@ -13,6 +13,11 @@
         android:text="Enter"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+    <Button
+            android:id="@+id/scan"
+            android:text="Scan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
     <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">

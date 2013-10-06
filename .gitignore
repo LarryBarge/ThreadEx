@@ -6,3 +6,5 @@ local.properties
 ThreadEx.iml
 out/
 out/**
+
+res/layout/main.xml.orig

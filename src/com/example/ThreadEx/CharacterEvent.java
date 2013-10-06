@@ -9,9 +9,9 @@ package com.example.ThreadEx;
  */
 public final class CharacterEvent {
     public final CharacterSource cs;
-    public final int c;
+    public final String c;
 
-    public CharacterEvent(CharacterSource cs, int c) {
+    public CharacterEvent(CharacterSource cs, String c) {
         this.cs = cs;
         this.c = c;
     }

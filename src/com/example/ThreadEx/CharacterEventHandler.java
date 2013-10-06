@@ -9,7 +9,7 @@ import java.util.Vector;
  * Time: 3:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CharacterEventListener {
+public class CharacterEventHandler {
     private Vector listeners = new Vector();
 
     public void addCharacterListener(CharacterListener cl) {
@@ -20,7 +20,7 @@ public class CharacterEventListener {
         listeners.remove(cl);
     }
 
-    public void newCharacter(CharacterSource cs, int c) {
+    public void newCharacter(CharacterSource cs, String c) {
         CharacterEvent ce = new CharacterEvent(cs, c);
         CharacterListener[] clArray = (CharacterListener[])listeners.toArray(new CharacterListener[0]);
         for(int i=0; i< clArray.length; i++) {

@@ -20,6 +20,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
         setContentView(R.layout.main);
         mProducer.start();
         layoutSetup();
+        //hi, i'm 12 and what is this?
     }
 
     public void layoutSetup() {

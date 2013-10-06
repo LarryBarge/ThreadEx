@@ -38,8 +38,11 @@ public class MainActivity extends Activity implements CharacterSource, Character
     public synchronized void processInput(final CharacterEvent ce) {
         final TextView textBox = (TextView)findViewById(R.id.output);
         final String originalText = textBox.getText().toString();
-        textBox.setText(originalText + "\n" + ce.c);
-
+        runOnUiThread(new Runnable() {
+            public void run() {
+                textBox.setText(originalText + ce.c);
+            }
+        });
     }
 
     public void addCharacterListener(CharacterListener cl) {

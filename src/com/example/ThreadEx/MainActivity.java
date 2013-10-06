@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements CharacterSource, CharacterListener {
@@ -20,7 +21,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
         setContentView(R.layout.main);
         mProducer.start();
         layoutSetup();
-        
+
     }
 
     public void layoutSetup() {

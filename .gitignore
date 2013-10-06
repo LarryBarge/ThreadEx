@@ -1,3 +1,5 @@
 ant.properties
 build.xml
 local.properties
+.idea/
+.idea/**

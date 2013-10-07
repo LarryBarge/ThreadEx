@@ -29,12 +29,12 @@ public class MainActivity extends Activity implements CharacterSource, Character
         setContentView(R.layout.main);
         mProducer.start();
         layoutSetup();
-        launchScanner();
 
     }
 
 
 
+    //Adding buttons to the layout and lauching the scanner app if button is clicked.
     public void layoutSetup() {
         ((Button)findViewById(R.id.enter)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
                 newCharacter(new CharacterEvent(MainActivity.this, inputString));
             }
         });
-        ((Button)findViewById(R.id.scan)).setOnClickListener(new View.OnClickListener(){
+        ((Button)findViewById(R.id.edit_message)).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 launchScanner();

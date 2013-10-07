@@ -17,6 +17,7 @@ import java.util.List;
 public class MainActivity extends Activity implements CharacterSource, CharacterListener {
     protected RandomCharacterGenerator mProducer = new RandomCharacterGenerator();
     private CharacterEventHandler mHandler = new CharacterEventHandler();
+    private final String savedOutput = "com.example.ThreadEx.MainActivity.output";
 
     /**
      * Called when the activity is first created.
@@ -26,14 +27,17 @@ public class MainActivity extends Activity implements CharacterSource, Character
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mProducer.start();
-        layoutSetup();
-
+        layoutSetup(savedInstanceState);
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(savedOutput, ((TextView)findViewById(R.id.output)).getText().toString());
+    }
 
     //Adding buttons to the layout and launching the scanner app if button is clicked.
-    public void layoutSetup() {
+    public void layoutSetup(Bundle savedInstanceState) {
         ((Button)findViewById(R.id.enter)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +51,11 @@ public class MainActivity extends Activity implements CharacterSource, Character
                 launchScanner();
             }
         });
+        if(savedInstanceState!=null && savedInstanceState.containsKey(savedOutput)) {
+            String restoredText = savedInstanceState.getString(savedOutput);
+            if(restoredText!=null)
+                ((TextView)findViewById(R.id.output)).setText(restoredText);
+        }
         mProducer.addCharacterListener(this);
         this.addCharacterListener(this);
     }

@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
 
 
 
-    //Adding buttons to the layout and lauching the scanner app if button is clicked.
+    //Adding buttons to the layout and launching the scanner app if button is clicked.
     public void layoutSetup() {
         ((Button)findViewById(R.id.enter)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +70,12 @@ public class MainActivity extends Activity implements CharacterSource, Character
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String tmp = intent.getStringExtra("SCAN_RESULT");
-            Log.e(this.getClass().getName(), "scan: " + tmp);
-            EditText codeEditText = (EditText)findViewById(R.id.edit_message);
-            codeEditText.setText(tmp);
+            TextView textView = (TextView)findViewById(R.id.output);
+            String originalText = textView.getText().toString();
+
+            textView.setText(originalText + tmp ); // sets the text from the scanner to output from the scanner
+            ((EditText)findViewById(R.id.input)).setText(tmp); //Add the scanned text to the input field.
+
         }
     }
 

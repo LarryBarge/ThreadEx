@@ -51,7 +51,7 @@ public class DBSchema {
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USER + " TEXT NOT NULL, " +
-                COLUMN_PASS + " TEXT, " + ");";
+                COLUMN_PASS + " TEXT" + ");";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }

@@ -14,17 +14,24 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     <Button
-            android:id="@+id/edit_message"
+            android:id="@+id/launch_scanner"
             android:text="Scan"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="197px">
         <TextView
             android:id="@+id/output"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </ScrollView>
+    <ListView
+        android:id="@+id/scan_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+
+
 </LinearLayout>
 

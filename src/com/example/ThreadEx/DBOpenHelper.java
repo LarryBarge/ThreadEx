@@ -14,11 +14,11 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    private final SharedPreferences mPrefs;
 
-    public DBOpenHelper(Context context, SharedPreferences prefs){
+
+    public DBOpenHelper(Context context){
         super(context, DBSchema.DATABASE_NAME, null, DBSchema.DATABASE_VERSION);
-        mPrefs = prefs;
+
     }
 
     @Override

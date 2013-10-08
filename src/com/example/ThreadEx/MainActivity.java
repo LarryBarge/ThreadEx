@@ -1,17 +1,17 @@
 package com.example.ThreadEx;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends Activity implements CharacterSource, CharacterListener {
@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
                 newCharacter(new CharacterEvent(MainActivity.this, inputString));
             }
         });
-        ((Button)findViewById(R.id.edit_message)).setOnClickListener(new View.OnClickListener(){
+        ((Button)findViewById(R.id.launch_scanner)).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 launchScanner();
@@ -55,16 +55,28 @@ public class MainActivity extends Activity implements CharacterSource, Character
             String restoredText = savedInstanceState.getString(savedOutput);
             if(restoredText!=null)
                 ((TextView)findViewById(R.id.output)).setText(restoredText);
+
         }
+
+        setListView();
         mProducer.addCharacterListener(this);
         this.addCharacterListener(this);
     }
 
+    public void setListView(){
+        Cursor dbCursor = null;
+        dbCursor = DBSingleton.getInstance().getDatabase(this.getApplicationContext()).query(DBSchema.ScanSchema.TABLE_NAME,null,null,null,null,null,null);
+        SimpleCursorAdapter dbCursorAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,dbCursor,new String[]{DBSchema.ScanSchema.COLUMN_VALUE},new int[]{android.R.id.text1} );
+        ListView listView = (ListView)findViewById(R.id.scan_list);
+        listView.setAdapter(dbCursorAdapter);
+    }
+
+    /*Launches Scanner App if installed, if not goes to install*/
     public boolean launchScanner() {
         Intent intent = new Intent("com.google.zxing.client.android.SCAN");
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.GET_INTENT_FILTERS);
 
-        if(list.size()>0) {
+        if(list.size()>0) {     //if the list from PackageManager returns >0 launch the scanner
             startActivityForResult(intent, 0);
             return true;
         } else {
@@ -76,6 +88,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             String tmp = intent.getStringExtra("SCAN_RESULT");
@@ -85,7 +98,28 @@ public class MainActivity extends Activity implements CharacterSource, Character
             textView.setText(originalText + tmp ); // sets the text from the scanner to output from the scanner
             ((EditText)findViewById(R.id.input)).setText(tmp); //Add the scanned text to the input field.
 
+            //adding the data to database
+            addDataSQLite(tmp);
+            setListView();
         }
+
+    }
+
+
+    /*Real meat of adding to database*/
+    private void addDataSQLite(final String scanResult){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ContentValues contentValues = new ContentValues(); //Creating a contentValue
+                contentValues.put(DBSchema.ScanSchema.COLUMN_ID,0);
+                contentValues.put(DBSchema.ScanSchema.COLUMN_VALUE,scanResult); //Places the scanned result passed to addDataSQLite() into contentValue local variable created
+                contentValues.put(DBSchema.ScanSchema.COLUMN_DATE, Calendar.HOUR);
+                DBSingleton.getInstance().getDatabase(MainActivity.this).insert(DBSchema.ScanSchema.TABLE_NAME,null,contentValues); //Creates a singleton instance of the database and inserts the value
+
+            }
+        });
+        thread.start(); //Start Thread
     }
 
     public synchronized void processInput(final CharacterEvent ce) {

@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Sasquatch
+ * User: Larry
  * Date: 10/8/13
  * Time: 9:38 AM
  * To change this template use File | Settings | File Templates.

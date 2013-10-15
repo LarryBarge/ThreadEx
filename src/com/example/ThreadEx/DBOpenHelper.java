@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Sasquatch
+ * User: Larry
  * Date: 10/7/13
  * Time: 12:23 PM
  * To change this template use File | Settings | File Templates.

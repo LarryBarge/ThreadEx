@@ -64,9 +64,13 @@ public class MainActivity extends Activity implements CharacterSource, Character
     }
 
     public void setListView(){
-        Cursor dbCursor = null;
-        dbCursor = DBSingleton.getInstance().getDatabase(this.getApplicationContext()).query(DBSchema.ScanSchema.TABLE_NAME,null,null,null,null,null,null);
-        SimpleCursorAdapter dbCursorAdapter = new SimpleCursorAdapter(this,android.R.layout.simple_list_item_1,dbCursor,new String[]{DBSchema.ScanSchema.COLUMN_VALUE},new int[]{android.R.id.text1} );
+        Cursor dbCursor = DBSingleton.getInstance().getDatabase(this.getApplicationContext()).query(DBSchema.ScanSchema.TABLE_NAME,null,null,null,null,null,null);
+        SimpleCursorAdapter dbCursorAdapter = new SimpleCursorAdapter(
+                this,
+                android.R.layout.simple_list_item_2,
+                dbCursor,
+                new String[]{DBSchema.ScanSchema.COLUMN_VALUE, DBSchema.ScanSchema.COLUMN_DATE},
+                new int[]{android.R.id.text1, android.R.id.text2} );
         ListView listView = (ListView)findViewById(R.id.scan_list);
         listView.setAdapter(dbCursorAdapter);
     }
@@ -114,7 +118,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
                 ContentValues contentValues = new ContentValues(); //Creating a contentValue
                 contentValues.put(DBSchema.ScanSchema.COLUMN_ID,0);
                 contentValues.put(DBSchema.ScanSchema.COLUMN_VALUE,scanResult); //Places the scanned result passed to addDataSQLite() into contentValue local variable created
-                contentValues.put(DBSchema.ScanSchema.COLUMN_DATE, Calendar.HOUR);
+                contentValues.put(DBSchema.ScanSchema.COLUMN_DATE, System.currentTimeMillis()/1000);
                 DBSingleton.getInstance().getDatabase(MainActivity.this).insert(DBSchema.ScanSchema.TABLE_NAME,null,contentValues); //Creates a singleton instance of the database and inserts the value
 
             }

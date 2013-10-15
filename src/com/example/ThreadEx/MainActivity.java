@@ -18,6 +18,7 @@ public class MainActivity extends Activity implements CharacterSource, Character
     protected RandomCharacterGenerator mProducer = new RandomCharacterGenerator();
     private CharacterEventHandler mHandler = new CharacterEventHandler();
     private final String savedOutput = "com.example.ThreadEx.MainActivity.output";
+    //changes for git push you ass.
 
     /**
      * Called when the activity is first created.

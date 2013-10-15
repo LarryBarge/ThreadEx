@@ -31,13 +31,11 @@ public class DBSchema {
      /*Creates the database table for codes scanned into db*/
     public static final class ScanSchema implements BaseColumns {
         public static final String TABLE_NAME = "scancodes";
-        public static final String COLUMN_ID = "scan_id";
         public static final String COLUMN_VALUE = "scan_value";
         public static final String COLUMN_DATE = "date";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_ID + " TEXT NOT NULL, " +
                 COLUMN_VALUE + " TEXT, " +
                 COLUMN_DATE + " LONG NOT NULL);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

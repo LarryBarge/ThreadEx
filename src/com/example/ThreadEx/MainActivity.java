@@ -117,7 +117,6 @@ public class MainActivity extends Activity implements CharacterSource, Character
             @Override
             public void run() {
                 ContentValues contentValues = new ContentValues(); //Creating a contentValue
-                contentValues.put(DBSchema.ScanSchema.COLUMN_ID,0);
                 contentValues.put(DBSchema.ScanSchema.COLUMN_VALUE,scanResult); //Places the scanned result passed to addDataSQLite() into contentValue local variable created
                 contentValues.put(DBSchema.ScanSchema.COLUMN_DATE, System.currentTimeMillis()/1000);
                 DBSingleton.getInstance().getDatabase(MainActivity.this).insert(DBSchema.ScanSchema.TABLE_NAME,null,contentValues); //Creates a singleton instance of the database and inserts the value

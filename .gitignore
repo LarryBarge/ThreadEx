@@ -3,8 +3,6 @@ build.xml
 local.properties
 .idea/
 .idea/**
-ThreadEx.iml
+*.iml
 out/
 out/**
-
-res/layout/main.xml.orig
